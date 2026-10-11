@@ -1,5 +1,5 @@
 name = "offstage_suweal"
-version = "0.8.0"
+version = "0.8.1"
 
 description = "Integration between Offstage and Suweal"
 licences = ["Apache-2.0"]
