@@ -8,8 +8,8 @@ repository = { type = "github", user = "Remy2701", repo = "offstage_suweal" }
 [dependencies]
 gleam_stdlib = ">= 1.0.0 and < 2.0.0"
 gjwt = ">= 2.0.1 and < 3.0.0"
-offstage = ">= 0.7.0 and < 1.0.0"
-suweal = ">= 0.3.0 and < 1.0.0"
+offstage = ">= 0.7.1 and < 1.0.0"
+suweal = ">= 0.3.1 and < 1.0.0"
 
 [dev_dependencies]
 gleeunit = ">= 1.0.0 and < 2.0.0"
