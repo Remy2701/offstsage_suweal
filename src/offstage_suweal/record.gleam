@@ -1,9 +1,9 @@
 import gleam/list
-import gleam/option.{type Option, None, Some}
+import gleam/option.{type Option, None}
 import offstage/dynamic/serialize
 import offstage/dynamic/spec
 import offstage/openapi/openapi_type.{type OpenAPIType}
-import suweal/identifier.{type Identifier}
+import offstage_suweal/identifier.{type Identifier}
 import suweal/record
 
 // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– //
@@ -37,18 +37,14 @@ pub const typed_decoder = record.typed_decoder
 // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– //
 
 /// The OpenAPI specification for the `Record` type.
-fn openapi_spec(type_: Option(String)) -> OpenAPIType {
-  // TODO: Change to one_of with the actual record structure
-  openapi_type.string()
-  |> openapi_type.format("identifier")
-  |> openapi_type.pattern("^(?:[A-Za-z0-9_]{1,20}:)?[A-Za-z0-9]{1,20}$")
-  |> openapi_type.example(
-    type_
-    |> option.or(Some("example"))
-    |> identifier.generate
-    |> identifier.to_string
-    |> spec.string,
-  )
+fn openapi_spec(
+  type_: Option(String),
+  type_spec: fn() -> OpenAPIType,
+) -> OpenAPIType {
+  openapi_type.one_of([
+    identifier.openapi_spec(type_),
+    type_spec(),
+  ])
 }
 
 pub fn serializer(
@@ -63,7 +59,7 @@ pub fn serializer(
         record.Record(_, value) -> serializer.encoder(value)
       }
     },
-    doc: fn() { openapi_spec(None) },
+    doc: fn() { openapi_spec(None, serializer.doc) },
   )
 }
 
@@ -87,6 +83,8 @@ pub fn typed_serializer(
         record.Record(_, value) -> serializer.encoder(value)
       }
     },
-    doc: fn() { list.first(types) |> option.from_result |> openapi_spec() },
+    doc: fn() {
+      openapi_spec(option.from_result(list.first(types)), serializer.doc)
+    },
   )
 }

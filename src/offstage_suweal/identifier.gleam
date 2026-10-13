@@ -45,7 +45,7 @@ pub const generate = identifier.generate
 // ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––– //
 
 /// The OpenAPI specification for the `Identifier` type.
-fn openapi_spec(type_: Option(String)) -> OpenAPIType {
+pub fn openapi_spec(type_: Option(String)) -> OpenAPIType {
   openapi_type.string()
   |> openapi_type.format("identifier")
   |> openapi_type.pattern("^(?:[A-Za-z0-9_]{1,20}:)?[A-Za-z0-9]{1,20}$")
