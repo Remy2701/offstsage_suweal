@@ -7,5 +7,5 @@ A library to integrate Suweal with Offstage.
 
 ```toml
 [dependencies]
-offstage_suweal = ">= 0.8.2 and < 1.0.0"
+offstage_suweal = ">= 0.9.3 and < 1.0.0"
 ```
