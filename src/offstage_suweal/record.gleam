@@ -42,8 +42,10 @@ fn openapi_spec(
   type_spec: fn() -> OpenAPIType,
 ) -> OpenAPIType {
   openapi_type.one_of([
-    identifier.openapi_spec(type_),
-    type_spec(),
+    identifier.openapi_spec(type_)
+      |> openapi_type.title("Identifier"),
+    type_spec()
+      |> openapi_type.title("Record"),
   ])
 }
 
